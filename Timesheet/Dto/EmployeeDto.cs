@@ -1,25 +1,8 @@
-﻿namespace Timesheet.Models
+﻿using Timesheet.Models;
+
+namespace Timesheet.Dto
 {
-    public enum Salary
-    {
-        HOUR,
-        MONTH
-    }
-    public enum Contract
-    {
-        PFA,
-        SRL,
-        CIM
-    }
-
-    public enum Currency
-    {
-        EUR,
-        RON,
-        USD
-    }
-
-    public class Employee
+    public class EmployeeDto
     {
         public int Id { get; set; }
 
@@ -30,16 +13,15 @@
         public string? City { get; set; }
 
         public string? Cnp { get; set; }
-
-        public string JobTitle { get; set; }
-
-        public Contract ContractType { get; set; }
+        public Currency CurrencyType { get; set; }
 
         public Salary SalaryType { get; set; }
 
-        public int? Salary { get; set; }
+        public Contract ContractType { get; set; }
 
-        public Currency CurrencyType { get; set; }
+        public string JobTitle { get; set; }
+
+        public int? Salary { get; set; }
 
         public string? PhoneNumber { get; set; }
 
@@ -58,9 +40,5 @@
         public DateTime ModifyAt { get; set; }
 
         public string ModifyBy { get; set; }
-
-        public ICollection<Allocation> Allocations { get; set; }
-
-        public ICollection<TimesheetProject> TimesheetProjects { get; set; }
     }
 }

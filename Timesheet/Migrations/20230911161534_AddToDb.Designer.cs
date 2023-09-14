@@ -12,7 +12,7 @@ using Timesheet.Data;
 namespace Timesheet.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230907190209_AddToDb")]
+    [Migration("20230911161534_AddToDb")]
     partial class AddToDb
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace Timesheet.Migrations
 
             modelBuilder.Entity("Timesheet.Models.Allocation", b =>
                 {
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -39,6 +39,9 @@ namespace Timesheet.Migrations
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndingDate")
                         .HasColumnType("datetime2");
@@ -62,6 +65,9 @@ namespace Timesheet.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartingDate")
                         .HasColumnType("datetime2");
 
@@ -69,7 +75,9 @@ namespace Timesheet.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EmployeeId", "ProjectId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ProjectId");
 
@@ -100,7 +108,7 @@ namespace Timesheet.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Currency")
+                    b.Property<int>("CurrencyType")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfEmployment")
@@ -179,16 +187,22 @@ namespace Timesheet.Migrations
 
             modelBuilder.Entity("Timesheet.Models.TimesheetProject", b =>
                 {
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("HourlyRate")
                         .HasColumnType("int");
 
                     b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -201,7 +215,9 @@ namespace Timesheet.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "ProjectId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ProjectId");
 

@@ -2,8 +2,7 @@
 {
     public class TimesheetProject
     {
-        public int EmployeeId { get; set; }
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
         public Employee Employee { get; set; }
         public Project Project { get; set; }
         public int TotalHours { get; set; }

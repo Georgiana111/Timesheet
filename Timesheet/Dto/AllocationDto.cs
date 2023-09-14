@@ -1,10 +1,12 @@
-﻿namespace Timesheet.Models
+﻿using Timesheet.Models;
+
+namespace Timesheet.Dto
 {
-    public class Allocation
+    public class AllocationDto
     {
         public int Id { get; set; }
-        public Employee Employee { get; set; }
-        public Project Project { get; set; }
+        public int ProjectId { get; set; }
+        public int EmployeeId { get; set; }
         public string Type { get; set; }
         public int Hours { get; set; }
         public int HourlyRate { get; set; }

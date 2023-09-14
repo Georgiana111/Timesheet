@@ -25,7 +25,7 @@ namespace Timesheet.Migrations
                     ContractType = table.Column<int>(type: "int", nullable: false),
                     SalaryType = table.Column<int>(type: "int", nullable: false),
                     Salary = table.Column<int>(type: "int", nullable: true),
-                    Currency = table.Column<int>(type: "int", nullable: false),
+                    CurrencyType = table.Column<int>(type: "int", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -63,6 +63,8 @@ namespace Timesheet.Migrations
                 name: "Allocations",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -79,7 +81,7 @@ namespace Timesheet.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Allocations", x => new { x.EmployeeId, x.ProjectId });
+                    table.PrimaryKey("PK_Allocations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Allocations_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -98,6 +100,8 @@ namespace Timesheet.Migrations
                 name: "Timesheets",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     TotalHours = table.Column<int>(type: "int", nullable: false),
@@ -108,7 +112,7 @@ namespace Timesheet.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Timesheets", x => new { x.EmployeeId, x.ProjectId });
+                    table.PrimaryKey("PK_Timesheets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Timesheets_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -124,9 +128,19 @@ namespace Timesheet.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Allocations_EmployeeId",
+                table: "Allocations",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Allocations_ProjectId",
                 table: "Allocations",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Timesheets_EmployeeId",
+                table: "Timesheets",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Timesheets_ProjectId",
