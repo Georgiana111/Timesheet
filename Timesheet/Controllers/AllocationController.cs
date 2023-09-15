@@ -100,34 +100,49 @@ namespace Timesheet.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("/projects/{projectId}/allocations")]
+        [HttpPut("allocations/{allocationId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateAllocation(int projectId, [FromBody] AllocationDto[] updatedAllocation)
+        public IActionResult UpdateAllocation(int allocationId, [FromBody] AllocationDto updatedAllocationDto)
         {
-            if (updatedAllocation == null)
-                return BadRequest(ModelState);
-
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            var allocations = new List<Allocation>();
-
-            foreach (var allocationDto in updatedAllocation)
+            if (updatedAllocationDto == null)
             {
-                var allocationMap = _mapper.Map<Allocation>(allocationDto);
-
-                allocations.Add(allocationMap);
+                return BadRequest("Invalid allocation data provided");
             }
 
-            if (!_allocationRepository.UpdateAllocations(allocations))
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Something went wrong updating owner");
+                return BadRequest(ModelState);
+            }
+
+            if (!_allocationRepository.AllocationExists(allocationId))
+            {
+                return NotFound("Allocation not found");
+            }
+
+            if (!_employeeRepository.EmployeeExists(updatedAllocationDto.EmployeeId))
+            {
+                ModelState.AddModelError("EmployeeId", "Employee not found");
+                return BadRequest(ModelState);
+            }
+
+            if (!_projectRepository.ProjectExists(updatedAllocationDto.ProjectId))
+            {
+                ModelState.AddModelError("ProjectId", "Project not found");
+                return BadRequest(ModelState);
+            }
+
+            var allocationToUpdate = _mapper.Map<Allocation>(updatedAllocationDto);
+            allocationToUpdate.Id = allocationId;
+
+            if (!_allocationRepository.UpdateAllocation(allocationToUpdate))
+            {
+                ModelState.AddModelError("", "Something went wrong updating allocation");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully created");
+            return NoContent();
         }
 
         [HttpGet("/projects/{projectId}/allocations")]

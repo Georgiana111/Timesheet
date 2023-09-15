@@ -41,10 +41,15 @@ namespace Timesheet.Repository
             return saved > 0;
         }
 
-        public bool UpdateAllocations(List<Allocation> allocations)
+        public bool UpdateAllocation(Allocation allocations)
         {
             _context.Update(allocations);
             return Save();
+        }
+
+        public bool AllocationExists(int allocationId)
+        {
+            return _context.Allocations.Any(a => a.Id == allocationId);
         }
     }
 }
