@@ -8,7 +8,7 @@ namespace Timesheet.Dto
 
         public string? LastName { get; set; }
 
-        public string? FirstName { get; set; }
+        public string? FirstName { get; set; } 
 
         public string? City { get; set; }
 

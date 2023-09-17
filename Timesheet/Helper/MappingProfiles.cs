@@ -14,6 +14,8 @@ namespace Timesheet.Helper
             CreateMap<EmployeeDto, Employee>();
             CreateMap<Allocation, AllocationDto>();
             CreateMap<AllocationDto, Allocation>();
+            CreateMap<TimesheetProject, TimesheetProjectDto>();
+            CreateMap<TimesheetProjectDto, TimesheetProject>();
         }
     }
 }

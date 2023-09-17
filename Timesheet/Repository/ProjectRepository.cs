@@ -30,7 +30,7 @@ namespace Timesheet.Repository
 
         public ICollection<Project> GetProjects()
         {
-            return _context.Projects.OrderBy(p => p.Id).ToList();
+            return _context.Projects.ToList();
         }
 
         public ICollection<Allocation> GetAllocationsByProject(int projectId)
